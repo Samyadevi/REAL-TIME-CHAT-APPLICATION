@@ -1,0 +1,123 @@
+/* style.css */
+
+/* Custom scrollbar for chat messages */
+.chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Define custom colors using CSS variables for consistency */
+:root {
+    --color-violet: #8e86ac; /* A vibrant shade of violet */
+    --color-lavender: #E6E6FA; /* A soft shade of lavender */
+    --color-light-gray: #f0f0f0;
+    --color-dark-gray: #333; /* Specifically used for black text as requested */
+
+    /* Custom colors for login and chat boxes */
+    --color-login-gradient-start: var(--color-lavender); /* Lavender for start of login box gradient */
+    --color-login-gradient-end: var(--color-violet);   /* Violet for end of login box gradient */
+    --color-chat-box-bg: var(--color-violet);       /* Violet for the main chat area */
+}
+
+/* Apply custom colors using utility classes */
+.bg-violet-custom { background-color: var(--color-violet); }
+.text-violet-custom { color: var(--color-violet); }
+.bg-lavender-custom { background-color: var(--color-lavender); }
+.text-lavender-custom { color: var(--color-dark-gray); } /* Dark text for contrast on light lavender */
+.bg-light-gray-custom { background-color: var(--color-light-gray); }
+.text-dark-gray-custom { color: var(--color-dark-gray); } /* Custom class for black text */
+
+/* Custom background for login box (gradient) and chat box (solid violet) */
+.bg-login-box-gradient {
+    background: linear-gradient(to bottom right, var(--color-login-gradient-start), var(--color-login-gradient-end));
+}
+.bg-chat-box-custom { background-color: var(--color-chat-box-bg); }
+
+
+/* Ensure Inter font is applied globally */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Styling for system messages (e.g., user joined/left) */
+.system-message {
+    font-size: 0.85rem;
+    color: #6B7280; /* Tailwind gray-500 for subtle text */
+    font-style: italic;
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Animations for elements appearing on the screen */
+/* Fade in and slide up animation for general elements like modal */
+@keyframes fadeInSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade in and slide down animation for elements like online users modal */
+@keyframes fadeInSlideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply animations using utility classes */
+.animate-fade-in-up {
+    animation: fadeInSlideUp 0.5s ease-out forwards;
+}
+
+.animate-fade-in-down {
+    animation: fadeInSlideDown 0.5s ease-out forwards;
+}
+
+/* Animation specifically for individual message bubbles as they are added */
+.message-entry-animation {
+    animation: fadeInSlideUp 0.3s ease-out forwards; /* Quicker animation for messages */
+}
+
+/* Enhance button hover effects */
+button:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add a stronger shadow on hover */
+}
+
+/* Style for the online users count badge - adjusted for numerical display */
+.online-users-badge {
+    width: 1.25rem; /* fixed width, e.g., Tailwind w-5 */
+    height: 1.25rem; /* fixed height, e.g., Tailwind h-5 */
+    padding: 0; /* No padding needed for fixed size */
+    font-size: 0.75rem; /* Tailwind text-xs is fine */
+    line-height: 1.25rem; /* Center text vertically */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    position: absolute;
+    top: -4px; /* Adjust as needed */
+    right: -4px; /* Adjust as needed */
+}
