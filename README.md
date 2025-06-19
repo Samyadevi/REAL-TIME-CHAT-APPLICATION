@@ -89,7 +89,7 @@ Important: This terminal window must remain open for the server to continue runn
 * Open your preferred web browser (e.g., Google Chrome, Mozilla Firefox, Microsoft Edge).
 * In the browser's address bar, navigate to the URL displayed in your terminal, which is typically http://localhost:6001.
 * You will be presented with a welcoming login modal. Type your desired unique username into the input field and click the "Join Chat" button.
-* To fully test the real-time communication capabilities, open an additional browser tab or window. In this new tab, navigate to http://localhost:3001 again, and join the chat with a different username.
+* To fully test the real-time communication capabilities, open an additional browser tab or window. In this new tab, navigate to http://localhost:6001 again, and join the chat with a different username.
 
 Now, type messages into the input field in either chat window. Press Enter or click the send button, and you will observe the messages appearing instantaneously in all connected chat windows, demonstrating the real-time interaction.
 
