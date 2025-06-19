@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Chat Application</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Socket.IO client library (loaded from server's static files) -->
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<!-- Body background remains light grey (bg-gray-200) -->
+<body class="bg-gray-200 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Username Input Modal - Initially visible -->
+    <div id="usernameModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+        <!-- Login box with custom gradient color -->
+        <div class="bg-login-box-gradient p-6 rounded-lg shadow-xl max-w-sm w-full animate-fade-in-up">
+            <h2 class="text-3xl font-extrabold mb-2 text-center text-dark-gray-custom">Welcome to Chat!</h2>
+            <p class="text-xl font-bold mb-4 text-center text-dark-gray-custom">Enter Your Username</p>
+            <input type="text" id="usernameInput" placeholder="Type your username..." class="w-full p-3 rounded-md border border-gray-300 mb-4 focus:outline-none focus:ring-2 focus:ring-violet-custom transition-all duration-200">
+            <button id="joinChatBtn" class="w-full bg-violet-custom text-white p-3 rounded-md font-semibold hover:bg-violet-700 transition-colors duration-200 transform hover:scale-105 active:scale-95">Join Chat</button>
+            <!-- Displays connection status or username errors -->
+            <p id="connectionStatus" class="text-gray-500 text-center mt-2 text-sm">Connecting to server...</p>
+            <p id="usernameError" class="text-red-500 text-center mt-2 hidden"></p>
+        </div>
+    </div>
+
+    <!-- Main Chat Interface with custom color -->
+    <div class="flex flex-col bg-chat-box-custom rounded-lg shadow-2xl w-full max-w-lg h-[90vh] overflow-hidden">
+        <!-- Header Section -->
+        <header class="bg-gradient-to-r from-violet-custom to-fuchsia-600 p-4 rounded-t-lg shadow-md flex items-center justify-between">
+            <h1 class="text-dark-gray-custom text-xl font-bold flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="black" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 16h.01M21 12c0 4.418-4.03 8-9 8a9.004 9.004 0 01-8.356-5.678A4.997 4.997 0 005 17c.459 0 .91-.077 1.333-.224M11.99 15.176l-2.096 1.048A1 1 0 018.847 16V8.153a1 1 0 011.533-.873l2.096 1.048a1 1 0 01.531.873v5.823z" />
+                </svg>
+                Real-time Chat
+            </h1>
+            <div class="flex items-center space-x-3">
+                <!-- Online Users Icon and Count -->
+                <button id="onlineUsersToggle" class="text-dark-gray-custom hover:text-gray-600 transition-colors duration-200 focus:outline-none relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="black" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h2a2 2 0 002-2V8a2 2 0 00-2-2h-2M17 20v-2a2 2 0 00-2-2H9a2 2 0 00-2 2v2M17 20h-2L12 15H9l-3 5H5a2 2 0 01-2-2V8a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2z" />
+                    </svg>
+                    <!-- User count badge will now display the number -->
+                    <span id="onlineUsersCount" class="online-users-badge absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center w-5 h-5">0</span>
+                </button>
+                <!-- Online Users List Modal - Hidden by default -->
+                <div id="onlineUsersModal" class="hidden absolute right-4 top-16 bg-white rounded-lg shadow-xl p-4 w-48 z-50 border border-gray-200 animate-fade-in-down">
+                    <h3 class="font-bold text-lg mb-2 text-violet-custom">Online Users</h3>
+                    <ul id="onlineUsersList" class="space-y-1 text-gray-700">
+                        <!-- Usernames will be dynamically added here by client.js -->
+                    </ul>
+                </div>
+
+                <button class="text-dark-gray-custom hover:text-gray-600 transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="black" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Message Display Area - Where chat messages appear -->
+        <div id="messages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-light-gray-custom chat-messages">
+            <!-- Initial system message displayed until user joins -->
+            <p id="systemMessage" class="text-center text-gray-600 italic">Welcome to the chat! Please enter your username.</p>
+        </div>
+
+        <!-- Typing Indicator - Displays who is currently typing -->
+        <div id="typingIndicator" class="px-4 py-2 text-sm text-gray-500 italic hidden">
+            <!-- Typing usernames will appear here, e.g., "John is typing..." -->
+        </div>`
+
+        <!-- Message Input Area -->
+        <div class="p-4 border-t border-gray-200 bg-white flex items-center rounded-b-lg">
+            <input type="text" id="messageInput" placeholder="Type a message..." class="flex-1 p-3 rounded-full bg-light-gray-custom border border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-custom transition-all duration-200" disabled>
+            <button id="sendMessageBtn" class="ml-3 p-3 bg-violet-custom text-white rounded-full shadow-lg hover:bg-violet-700 transition-all duration-200 transform hover:scale-105 active:scale-95" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Client-side JavaScript logic -->
+    <script src="client.js"></script>
+</body>
+</html>
