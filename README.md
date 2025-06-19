@@ -80,14 +80,14 @@ node server.js
 
 Upon successful startup, your terminal will display messages indicating that the server is listening, typically:
 
-Server listening on port 3001
-Access the chat application at http://localhost:3001
+Server listening on port 6001
+Access the chat application at http://localhost:6001
 
 Important: This terminal window must remain open for the server to continue running. Closing it will shut down the server and the chat application.
 
 💻 Usage
 * Open your preferred web browser (e.g., Google Chrome, Mozilla Firefox, Microsoft Edge).
-* In the browser's address bar, navigate to the URL displayed in your terminal, which is typically http://localhost:3001.
+* In the browser's address bar, navigate to the URL displayed in your terminal, which is typically http://localhost:6001.
 * You will be presented with a welcoming login modal. Type your desired unique username into the input field and click the "Join Chat" button.
 * To fully test the real-time communication capabilities, open an additional browser tab or window. In this new tab, navigate to http://localhost:3001 again, and join the chat with a different username.
 
